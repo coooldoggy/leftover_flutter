@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 void main() {}
 
@@ -25,6 +26,21 @@ class NewTicketPage extends StatefulWidget {
 }
 
 class _NewTicketPageState extends State<NewTicketPage> {
+  var titleStyle = TextStyle(color: Color.fromRGBO(68, 68, 68, 1));
+
+  getCurrentDate() {
+    return DateFormat('yyyy.MM.dd').format(DateTime.now());
+  }
+
+  getFutureDate() {
+    var now = DateTime.now().add(Duration(days: 30));
+    return DateFormat('yyyy.MM.dd').format(now);
+  }
+
+  void closeThisScreen() {
+    Navigator.of(context, rootNavigator: true).pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +52,12 @@ class _NewTicketPageState extends State<NewTicketPage> {
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.white,
-        leading: IconButton(icon: Icon(Icons.close), onPressed: () => null),
+        leading: IconButton(
+            icon: Icon(
+              Icons.close,
+              color: Colors.black,
+            ),
+            onPressed: () => closeThisScreen()),
         actions: [
           TextButton(
               onPressed: () => null,
@@ -47,6 +68,198 @@ class _NewTicketPageState extends State<NewTicketPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(top: 16, left: 22),
+              child: Text("이용권 이름", style: titleStyle),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(top: 9, left: 22),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "이용권 이름",
+                    counterText: "",
+                    hintStyle: TextStyle(fontSize: 16)),
+                maxLines: 1,
+                maxLength: 10,
+              ),
+            ),
+            Divider(
+              height: 1,
+              color: Color.fromRGBO(233, 233, 233, 1),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 16, left: 22),
+                          child: Text("이용권 횟수", style: titleStyle),
+                        ),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 9, left: 22),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "이용권 횟수",
+                                counterText: "",
+                                hintStyle: TextStyle(fontSize: 16)),
+                            maxLines: 1,
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: Color.fromRGBO(233, 233, 233, 1),
+                        ),
+                      ],
+                    ),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 16, left: 22),
+                          child: Text("색상", style: titleStyle),
+                        ),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 9, left: 10),
+                          child: IconButton(
+                              icon: Image.asset('assets/resources/color-01.png'),
+                              onPressed: () => null),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: Color.fromRGBO(233, 233, 233, 1),
+                        ),
+                      ],
+                    ),
+                    flex: 1,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 16, left: 22),
+                          child: Text("시작일", style: titleStyle),
+                        ),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 9, left: 22),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "${getCurrentDate()}",
+                                counterText: "",
+                                hintStyle: TextStyle(fontSize: 16)),
+                            maxLines: 1,
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: Color.fromRGBO(233, 233, 233, 1),
+                        ),
+                      ],
+                    ),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 16, left: 22),
+                          child: Text("종료일", style: titleStyle),
+                        ),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 9, left: 22),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "${getFutureDate()}",
+                                counterText: "",
+                                hintStyle: TextStyle(fontSize: 16)),
+                            maxLines: 1,
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: Color.fromRGBO(233, 233, 233, 1),
+                        ),
+                      ],
+                    ),
+                    flex: 1,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(top: 16, left: 22),
+              child: Text("장소", style: titleStyle),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(top: 9, left: 22),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "장소",
+                    counterText: "",
+                    hintStyle: TextStyle(fontSize: 16)),
+                maxLength: 50,
+                maxLines: 2,
+              ),
+            ),
+            Divider(
+              height: 1,
+              color: Color.fromRGBO(233, 233, 233, 1),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(top: 16, left: 22),
+              child: Text("메모", style: titleStyle),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.only(top: 9, left: 22),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "메모",
+                    counterText: "",
+                    hintStyle: TextStyle(fontSize: 16)),
+                maxLength: 500,
+              ),
+            ),
+          ],
         ),
       ),
     );
