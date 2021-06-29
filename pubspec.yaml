@@ -53,6 +53,17 @@ flutter:
     - assets/assets_list.json
     - assets/resources/
 
+  fonts:
+     - family: NotoSansLight
+       fonts:
+         - asset: assets/fonts/NotoSansKR-Light.otf
+     - family: NotoSansBold
+       fonts:
+         - asset: assets/fonts/NotoSansKR-Bold.otf
+     - family: NotoSans
+       fonts:
+         - asset: assets/fonts/NotoSansKR-Regular.otf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

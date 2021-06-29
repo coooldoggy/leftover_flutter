@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'style/font.dart';
 
 void main() {}
 
@@ -26,7 +27,8 @@ class NewTicketPage extends StatefulWidget {
 }
 
 class _NewTicketPageState extends State<NewTicketPage> {
-  var titleStyle = TextStyle(color: Color.fromRGBO(68, 68, 68, 1));
+  var titleStyle = TextStyle(color: Color.fromRGBO(68, 68, 68, 1), fontFamily: LeftOverTextStyle.notoSans,  fontSize: 12);
+  var hintStyle = TextStyle(fontSize: 16, fontFamily: LeftOverTextStyle.notoSans, color: Color.fromRGBO(153, 153, 153, 1));
 
   getCurrentDate() {
     return DateFormat('yyyy.MM.dd').format(DateTime.now());
@@ -48,7 +50,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
         title: Text(
           widget.title,
           style:
-              const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontFamily: LeftOverTextStyle.notoSans),
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.white,
@@ -61,13 +63,12 @@ class _NewTicketPageState extends State<NewTicketPage> {
         actions: [
           TextButton(
               onPressed: () => null,
-              child: Text('등록', style: TextStyle(color: Colors.black)))
+              child: Text('등록', style: TextStyle(color: Colors.black, fontFamily: LeftOverTextStyle.notoSans)))
         ],
         centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
           children: [
             Container(
               alignment: Alignment.topLeft,
@@ -82,7 +83,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                     border: InputBorder.none,
                     hintText: "이용권 이름",
                     counterText: "",
-                    hintStyle: TextStyle(fontSize: 16)),
+                    hintStyle: hintStyle),
                 maxLines: 1,
                 maxLength: 10,
               ),
@@ -112,7 +113,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                                 border: InputBorder.none,
                                 hintText: "이용권 횟수",
                                 counterText: "",
-                                hintStyle: TextStyle(fontSize: 16)),
+                                hintStyle: hintStyle),
                             maxLines: 1,
                             maxLength: 10,
                             keyboardType: TextInputType.number,
@@ -173,7 +174,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                                 border: InputBorder.none,
                                 hintText: "${getCurrentDate()}",
                                 counterText: "",
-                                hintStyle: TextStyle(fontSize: 16)),
+                                hintStyle: hintStyle),
                             maxLines: 1,
                             maxLength: 10,
                             keyboardType: TextInputType.number,
@@ -203,7 +204,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                                 border: InputBorder.none,
                                 hintText: "${getFutureDate()}",
                                 counterText: "",
-                                hintStyle: TextStyle(fontSize: 16)),
+                                hintStyle: hintStyle),
                             maxLines: 1,
                             maxLength: 10,
                             keyboardType: TextInputType.number,
@@ -233,7 +234,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                     border: InputBorder.none,
                     hintText: "장소",
                     counterText: "",
-                    hintStyle: TextStyle(fontSize: 16)),
+                    hintStyle: hintStyle),
                 maxLength: 50,
                 maxLines: 2,
               ),
@@ -255,7 +256,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                     border: InputBorder.none,
                     hintText: "메모",
                     counterText: "",
-                    hintStyle: TextStyle(fontSize: 16)),
+                    hintStyle: hintStyle),
                 maxLength: 500,
               ),
             ),
