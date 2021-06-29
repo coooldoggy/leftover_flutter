@@ -1,9 +1,10 @@
 {
   "resources": {
     "loading": "loading.gif",
-    "icon_hand": "icon_hand.png",
+    "icon_hand": "icon_hand.svg",
     "icon_ticker": "icon-ticket.png",
     "btn-add": "btn-add.png",
-    "color-01": "color-01.png"
+    "color-01": "color-01.png",
+    "icon": "icon.png",
   }
 }
