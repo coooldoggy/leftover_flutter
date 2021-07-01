@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:leftover_flutter/ColorPicker.dart';
 import 'style/font.dart';
 
 void main() {}
@@ -41,6 +42,10 @@ class _NewTicketPageState extends State<NewTicketPage> {
 
   void closeThisScreen() {
     Navigator.of(context, rootNavigator: true).pop(context);
+  }
+
+  void openColorPickerScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ColorPicker()),);
   }
 
   @override
@@ -140,7 +145,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                           margin: EdgeInsets.only(top: 9, left: 10),
                           child: IconButton(
                               icon: Image.asset('assets/resources/color-01.png'),
-                              onPressed: () => null),
+                              onPressed: () => openColorPickerScreen()),
                         ),
                         Divider(
                           height: 1,
