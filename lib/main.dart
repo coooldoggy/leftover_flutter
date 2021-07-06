@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'newTicket.dart';
+import 'style/colors.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp()));
@@ -86,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Add',
         child: Icon(Icons.add),
         backgroundColor: Colors.white,
-        foregroundColor: Color.fromRGBO(151, 95, 231, 1),
+        foregroundColor: LeftOverColor.logo_purpley,
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

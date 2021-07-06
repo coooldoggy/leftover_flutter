@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:leftover_flutter/ColorPicker.dart';
 import 'style/font.dart';
+import 'style/colors.dart';
 
 void main() {}
 
@@ -28,8 +29,8 @@ class NewTicketPage extends StatefulWidget {
 }
 
 class _NewTicketPageState extends State<NewTicketPage> {
-  var titleStyle = TextStyle(color: Color.fromRGBO(68, 68, 68, 1), fontFamily: LeftOverTextStyle.notoSans,  fontSize: 12);
-  var hintStyle = TextStyle(fontSize: 16, fontFamily: LeftOverTextStyle.notoSans, color: Color.fromRGBO(153, 153, 153, 1));
+  var titleStyle = TextStyle(color: LeftOverColor.text_greyish_brown, fontFamily: LeftOverTextStyle.notoSans,  fontSize: 12);
+  var hintStyle = TextStyle(fontSize: 16, fontFamily: LeftOverTextStyle.notoSans, color: LeftOverColor.text_warm_grey);
 
   getCurrentDate() {
     return DateFormat('yyyy.MM.dd').format(DateTime.now());
@@ -95,7 +96,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
             ),
             Divider(
               height: 1,
-              color: Color.fromRGBO(233, 233, 233, 1),
+              color: LeftOverColor.very_light_pink,
             ),
             Container(
               alignment: Alignment.topLeft,
@@ -126,7 +127,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         ),
                         Divider(
                           height: 1,
-                          color: Color.fromRGBO(233, 233, 233, 1),
+                          color: LeftOverColor.very_light_pink,
                         ),
                       ],
                     ),
@@ -149,7 +150,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         ),
                         Divider(
                           height: 1,
-                          color: Color.fromRGBO(233, 233, 233, 1),
+                          color: LeftOverColor.very_light_pink,
                         ),
                       ],
                     ),
@@ -187,7 +188,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         ),
                         Divider(
                           height: 1,
-                          color: Color.fromRGBO(233, 233, 233, 1),
+                          color: LeftOverColor.very_light_pink,
                         ),
                       ],
                     ),
@@ -217,7 +218,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         ),
                         Divider(
                           height: 1,
-                          color: Color.fromRGBO(233, 233, 233, 1),
+                          color: LeftOverColor.very_light_pink,
                         ),
                       ],
                     ),
@@ -246,7 +247,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
             ),
             Divider(
               height: 1,
-              color: Color.fromRGBO(233, 233, 233, 1),
+              color: LeftOverColor.very_light_pink,
             ),
             Container(
               alignment: Alignment.topLeft,
