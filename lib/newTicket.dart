@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:leftover_flutter/ColorPicker.dart';
+import 'package:leftover_flutter/data/DBHelper.dart';
+import 'package:leftover_flutter/data/TicketInfo.dart';
 import 'style/font.dart';
 import 'style/colors.dart';
 
@@ -30,13 +32,13 @@ class NewTicketPage extends StatefulWidget {
 
 class _NewTicketPageState extends State<NewTicketPage> {
   var titleStyle = TextStyle(color: LeftOverColor.text_greyish_brown, fontFamily: LeftOverTextStyle.notoSans,  fontSize: 12);
-  var hintStyle = TextStyle(fontSize: 16, fontFamily: LeftOverTextStyle.notoSans, color: LeftOverColor.text_warm_grey);
+  static var hintStyle = TextStyle(fontSize: 16, fontFamily: LeftOverTextStyle.notoSans, color: LeftOverColor.text_warm_grey);
 
-  getCurrentDate() {
+  static getCurrentDate() {
     return DateFormat('yyyy.MM.dd').format(DateTime.now());
   }
 
-  getFutureDate() {
+  static getFutureDate() {
     var now = DateTime.now().add(Duration(days: 30));
     return DateFormat('yyyy.MM.dd').format(now);
   }
@@ -47,6 +49,99 @@ class _NewTicketPageState extends State<NewTicketPage> {
 
   void openColorPickerScreen(){
     Navigator.push(context, MaterialPageRoute(builder: (context) => ColorPicker()),);
+  }
+
+  void registerTicket(){
+    DBHelper().insertTicket(TicketInfo(id: null, name: _nameTextEditController.text, totalCnt: int.parse(_ticketTextEditController.text),
+        leftCnt: null, color: 1, startDate: _startDateTextEditController.text, endDate: _endDateTextEditController.text,
+        location: _locationTextEditController.text, memo: _memoTextEditController.text));
+  }
+
+  static var _nameTextEditController = TextEditingController();
+  static var _ticketTextEditController = TextEditingController();
+  static var _startDateTextEditController = TextEditingController();
+  static var _endDateTextEditController = TextEditingController();
+  static var _locationTextEditController = TextEditingController();
+  static var _memoTextEditController = TextEditingController();
+
+  var _nameField = TextField(
+    controller: _nameTextEditController,
+    decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: "이용권 이름",
+        counterText: "",
+        hintStyle: hintStyle),
+    maxLines: 1,
+    maxLength: 10,
+  );
+
+  var _ticketCntField = TextField(
+    controller: _ticketTextEditController,
+    decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: "이용권 횟수",
+        counterText: "",
+        hintStyle: hintStyle),
+    maxLines: 1,
+    maxLength: 10,
+    keyboardType: TextInputType.number,
+  );
+
+  var _startDateField = TextField(
+    controller: _startDateTextEditController,
+    decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: "${getCurrentDate()}",
+        counterText: "",
+        hintStyle: hintStyle),
+    maxLines: 1,
+    maxLength: 10,
+    keyboardType: TextInputType.number,
+  );
+
+  var _endDateField = TextField(
+    controller: _endDateTextEditController,
+    decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: "${getFutureDate()}",
+        counterText: "",
+        hintStyle: hintStyle),
+    maxLines: 1,
+    maxLength: 10,
+    keyboardType: TextInputType.number,
+  );
+
+  var _locationField = TextField(
+    controller: _locationTextEditController,
+    decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: "장소",
+        counterText: "",
+        hintStyle: hintStyle),
+    maxLength: 50,
+    maxLines: 2,
+  );
+
+  var _memoField = TextField(
+    controller: _memoTextEditController,
+    decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: "메모",
+        counterText: "",
+        hintStyle: hintStyle),
+    maxLength: 500,
+  );
+
+
+  @override
+  void dispose() {
+    _nameTextEditController.dispose();
+    _ticketTextEditController.dispose();
+    _startDateTextEditController.dispose();
+    _endDateTextEditController.dispose();
+    _locationTextEditController.dispose();
+    _memoTextEditController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,7 +163,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
             onPressed: () => closeThisScreen()),
         actions: [
           TextButton(
-              onPressed: () => null,
+              onPressed: () => registerTicket(),
               child: Text('등록', style: TextStyle(color: Colors.black, fontFamily: LeftOverTextStyle.notoSans)))
         ],
         centerTitle: true,
@@ -84,15 +179,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
             Container(
               alignment: Alignment.topLeft,
               margin: EdgeInsets.only(top: 9, left: 22),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "이용권 이름",
-                    counterText: "",
-                    hintStyle: hintStyle),
-                maxLines: 1,
-                maxLength: 10,
-              ),
+              child: _nameField,
             ),
             Divider(
               height: 1,
@@ -114,16 +201,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         Container(
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(top: 9, left: 22),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "이용권 횟수",
-                                counterText: "",
-                                hintStyle: hintStyle),
-                            maxLines: 1,
-                            maxLength: 10,
-                            keyboardType: TextInputType.number,
-                          ),
+                          child: _ticketCntField,
                         ),
                         Divider(
                           height: 1,
@@ -175,16 +253,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         Container(
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(top: 9, left: 22),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "${getCurrentDate()}",
-                                counterText: "",
-                                hintStyle: hintStyle),
-                            maxLines: 1,
-                            maxLength: 10,
-                            keyboardType: TextInputType.number,
-                          ),
+                          child: _startDateField,
                         ),
                         Divider(
                           height: 1,
@@ -205,16 +274,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         Container(
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(top: 9, left: 22),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "${getFutureDate()}",
-                                counterText: "",
-                                hintStyle: hintStyle),
-                            maxLines: 1,
-                            maxLength: 10,
-                            keyboardType: TextInputType.number,
-                          ),
+                          child: _endDateField,
                         ),
                         Divider(
                           height: 1,
@@ -235,15 +295,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
             Container(
               alignment: Alignment.topLeft,
               margin: EdgeInsets.only(top: 9, left: 22),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "장소",
-                    counterText: "",
-                    hintStyle: hintStyle),
-                maxLength: 50,
-                maxLines: 2,
-              ),
+              child: _locationField,
             ),
             Divider(
               height: 1,
@@ -257,14 +309,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
             Container(
               alignment: Alignment.topLeft,
               margin: EdgeInsets.only(top: 9, left: 22),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "메모",
-                    counterText: "",
-                    hintStyle: hintStyle),
-                maxLength: 500,
-              ),
+              child: _memoField,
             ),
           ],
         ),

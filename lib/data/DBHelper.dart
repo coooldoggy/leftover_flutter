@@ -31,4 +31,34 @@ class DBHelper {
     await db.insert(mainTableName, ticketInfo.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  ///get all
+  Future<List<TicketInfo>> getAllTicket() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(mainTableName);
+    return List.generate(maps.length, (i){
+      return TicketInfo(id: maps[i]['id'], name: maps[i]['name'], totalCnt: maps[i]['totalCnt'], leftCnt: maps[i]['leftCnt'], color: maps[i]['color'], startDate: maps[i]['startDate'],
+          endDate: maps[i]['endDate'], location: maps[i]['location'], memo: maps[i]['memo']);
+    });
+  }
+
+  ///get one
+  Future<dynamic> getTicket(int id) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = (await db.query(mainTableName, where: "id = ?", whereArgs: [id]));
+    return maps.isNotEmpty ? maps.first['id'] : null;
+  }
+
+  ///update
+  Future<void> updateTicketInfo(TicketInfo ticketInfo) async {
+    final db = await database;
+    await db.update(mainTableName, ticketInfo.toMap(), where: "id = ?", whereArgs: [ticketInfo.id]);
+  }
+
+
+  ///delete
+ Future<void> deleteTicket(int id) async {
+   final db = await database;
+   await db.delete(mainTableName, where: "id = ?", whereArgs: [id]);
+ }
+
 }

@@ -1,8 +1,8 @@
 class TicketInfo {
-  int id;
+  int? id;
   String name;
   int totalCnt;
-  int leftCnt;
+  int? leftCnt;
   int color;
   String startDate;
   String endDate;
