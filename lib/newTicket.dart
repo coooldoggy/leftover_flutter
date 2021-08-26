@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:leftover_flutter/ColorPicker.dart';
 import 'package:leftover_flutter/data/DBHelper.dart';
@@ -18,6 +18,14 @@ class NewTicket extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: NewTicketPage(title: '이용권 등록'),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('ko', ''),
+      ],
     );
   }
 }
@@ -31,8 +39,14 @@ class NewTicketPage extends StatefulWidget {
 }
 
 class _NewTicketPageState extends State<NewTicketPage> {
-  var titleStyle = TextStyle(color: LeftOverColor.text_greyish_brown, fontFamily: LeftOverTextStyle.notoSans,  fontSize: 12);
-  static var hintStyle = TextStyle(fontSize: 16, fontFamily: LeftOverTextStyle.notoSans, color: LeftOverColor.text_warm_grey);
+  var titleStyle = TextStyle(
+      color: LeftOverColor.text_greyish_brown,
+      fontFamily: LeftOverTextStyle.notoSans,
+      fontSize: 12);
+  static var hintStyle = TextStyle(
+      fontSize: 16,
+      fontFamily: LeftOverTextStyle.notoSans,
+      color: LeftOverColor.text_warm_grey);
 
   static getCurrentDate() {
     return DateFormat('yyyy.MM.dd').format(DateTime.now());
@@ -47,14 +61,39 @@ class _NewTicketPageState extends State<NewTicketPage> {
     Navigator.of(context, rootNavigator: true).pop(context);
   }
 
-  void openColorPickerScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ColorPicker()),);
+  void openColorPickerScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ColorPicker()),
+    );
   }
 
-  void registerTicket(){
-    DBHelper().insertTicket(TicketInfo(id: null, name: _nameTextEditController.text, totalCnt: int.parse(_ticketTextEditController.text),
-        leftCnt: null, color: 1, startDate: _startDateTextEditController.text, endDate: _endDateTextEditController.text,
-        location: _locationTextEditController.text, memo: _memoTextEditController.text));
+  void selectStartDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      locale: const Locale('ko', 'KO'),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2015),
+      lastDate: DateTime(2030),
+    );
+    if (picked != null) {
+      _startDateTextEditController.text = picked.toString().substring(0, 10);
+    } else {
+      return null;
+    }
+  }
+
+  void registerTicket() {
+    DBHelper().insertTicket(TicketInfo(
+        id: null,
+        name: _nameTextEditController.text,
+        totalCnt: int.parse(_ticketTextEditController.text),
+        leftCnt: null,
+        color: 1,
+        startDate: _startDateTextEditController.text,
+        endDate: _endDateTextEditController.text,
+        location: _locationTextEditController.text,
+        memo: _memoTextEditController.text));
   }
 
   static var _nameTextEditController = TextEditingController();
@@ -89,6 +128,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
 
   var _startDateField = TextField(
     controller: _startDateTextEditController,
+    readOnly: true,
     decoration: InputDecoration(
         border: InputBorder.none,
         hintText: "${getCurrentDate()}",
@@ -132,7 +172,6 @@ class _NewTicketPageState extends State<NewTicketPage> {
     maxLength: 500,
   );
 
-
   @override
   void dispose() {
     _nameTextEditController.dispose();
@@ -150,8 +189,10 @@ class _NewTicketPageState extends State<NewTicketPage> {
       appBar: AppBar(
         title: Text(
           widget.title,
-          style:
-              const TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontFamily: LeftOverTextStyle.notoSans),
+          style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontFamily: LeftOverTextStyle.notoSans),
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.white,
@@ -164,7 +205,10 @@ class _NewTicketPageState extends State<NewTicketPage> {
         actions: [
           TextButton(
               onPressed: () => registerTicket(),
-              child: Text('등록', style: TextStyle(color: Colors.black, fontFamily: LeftOverTextStyle.notoSans)))
+              child: Text('등록',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: LeftOverTextStyle.notoSans)))
         ],
         centerTitle: true,
       ),
@@ -223,7 +267,8 @@ class _NewTicketPageState extends State<NewTicketPage> {
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(top: 9, left: 10),
                           child: IconButton(
-                              icon: Image.asset('assets/resources/color-01.png'),
+                              icon:
+                                  Image.asset('assets/resources/color-01.png'),
                               onPressed: () => openColorPickerScreen()),
                         ),
                         Divider(
@@ -253,7 +298,19 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         Container(
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(top: 9, left: 22),
-                          child: _startDateField,
+                          child: TextField(
+                            controller: _startDateTextEditController,
+                            onTap: () => selectStartDate(),
+                            readOnly: true,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "${getCurrentDate()}",
+                                counterText: "",
+                                hintStyle: hintStyle),
+                            maxLines: 1,
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
+                          ),
                         ),
                         Divider(
                           height: 1,
