@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'newTicket.dart';
@@ -47,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         backgroundColor: Colors.white,
         leading: IconButton(
-            icon: Image.asset('assets/resources/icon_hand.png'),
+            icon: SvgPicture.asset('assets/resources/iconhand.svg'),
             onPressed: () => null),
         actions: [
           IconButton(

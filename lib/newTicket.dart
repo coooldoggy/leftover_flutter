@@ -18,14 +18,6 @@ class NewTicket extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: NewTicketPage(title: '이용권 등록'),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        Locale('ko', ''),
-      ],
     );
   }
 }
@@ -71,7 +63,6 @@ class _NewTicketPageState extends State<NewTicketPage> {
   void selectStartDate() async {
     DateTime? picked = await showDatePicker(
       context: context,
-      locale: const Locale('ko', 'KO'),
       initialDate: DateTime.now(),
       firstDate: DateTime(2015),
       lastDate: DateTime(2030),
@@ -298,19 +289,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         Container(
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(top: 9, left: 22),
-                          child: TextField(
-                            controller: _startDateTextEditController,
-                            onTap: () => selectStartDate(),
-                            readOnly: true,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "${getCurrentDate()}",
-                                counterText: "",
-                                hintStyle: hintStyle),
-                            maxLines: 1,
-                            maxLength: 10,
-                            keyboardType: TextInputType.number,
-                          ),
+                          child: _startDateField,
                         ),
                         Divider(
                           height: 1,
