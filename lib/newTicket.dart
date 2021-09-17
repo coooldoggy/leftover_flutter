@@ -61,10 +61,27 @@ class _NewTicketPageState extends State<NewTicketPage> {
   }
 
   void openColorPickerScreen() {
-    Navigator.push(
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => ColorPicker()),
+    // );
+
+  }
+
+  _navigateAndDisplaySelection(BuildContext context) async {
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ColorPicker()),
     );
+
+    debugPrint("$result");
+
+    // 선택 창으로부터 결과 값을 받은 후, 이전에 있던 snackbar는 숨기고 새로운 결과 값을
+    // 보여줍니다.
+
+    Scaffold.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text("$result")));
   }
 
   void selectStartDate(TextEditingController controller) async {
@@ -231,7 +248,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                           child: IconButton(
                               icon:
                                   Image.asset('assets/resources/color-01.png'),
-                              onPressed: () => openColorPickerScreen()),
+                              onPressed: () => _navigateAndDisplaySelection(context)),
                         ),
                         Divider(
                           height: 1,

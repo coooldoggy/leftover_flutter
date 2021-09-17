@@ -29,7 +29,7 @@ class ColorPickerPage extends StatefulWidget {
 class _ColorPickerPageState extends State<ColorPickerPage> {
 
   void closeThisScreen() {
-    Navigator.of(context, rootNavigator: true).pop(context);
+    Navigator.of(context, rootNavigator: true).pop(result);
   }
 
   List<Color> colorList = [
@@ -42,12 +42,20 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
     LeftOverColor.use_pale_orange
   ];
 
+  var result =  LeftOverColor.use_light_aquamarine;
+  void setResultColor(Color pickedColor){
+    result = pickedColor;
+    closeThisScreen();
+  }
+
   List<Container> _buildColorGridList() => List.generate(
       7,
       (index) => Container(
             width: 45,
             height: 45,
-            child: Icon(Icons.check, color: Colors.white),
+            child: IconButton(
+                icon: Icon(Icons.check, color: Colors.white),
+                onPressed: () => setResultColor(colorList[index])),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: colorList[index],
