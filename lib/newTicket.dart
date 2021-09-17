@@ -18,6 +18,13 @@ class NewTicket extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: NewTicketPage(title: '이용권 등록'),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ko', 'KO'),
+      ],
     );
   }
 }
@@ -60,7 +67,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
     );
   }
 
-  void selectStartDate() async {
+  void selectStartDate(TextEditingController controller) async {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -68,7 +75,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
       lastDate: DateTime(2030),
     );
     if (picked != null) {
-      _startDateTextEditController.text = picked.toString().substring(0, 10);
+      controller.text = picked.toString().substring(0, 10);
     } else {
       return null;
     }
@@ -117,31 +124,6 @@ class _NewTicketPageState extends State<NewTicketPage> {
     keyboardType: TextInputType.number,
   );
 
-  var _startDateField = TextField(
-    controller: _startDateTextEditController,
-    readOnly: true,
-    decoration: InputDecoration(
-        border: InputBorder.none,
-        hintText: "${getCurrentDate()}",
-        counterText: "",
-        hintStyle: hintStyle),
-    maxLines: 1,
-    maxLength: 10,
-    keyboardType: TextInputType.number,
-  );
-
-  var _endDateField = TextField(
-    controller: _endDateTextEditController,
-    decoration: InputDecoration(
-        border: InputBorder.none,
-        hintText: "${getFutureDate()}",
-        counterText: "",
-        hintStyle: hintStyle),
-    maxLines: 1,
-    maxLength: 10,
-    keyboardType: TextInputType.number,
-  );
-
   var _locationField = TextField(
     controller: _locationTextEditController,
     decoration: InputDecoration(
@@ -162,17 +144,6 @@ class _NewTicketPageState extends State<NewTicketPage> {
         hintStyle: hintStyle),
     maxLength: 500,
   );
-
-  @override
-  void dispose() {
-    _nameTextEditController.dispose();
-    _ticketTextEditController.dispose();
-    _startDateTextEditController.dispose();
-    _endDateTextEditController.dispose();
-    _locationTextEditController.dispose();
-    _memoTextEditController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +260,19 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         Container(
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(top: 9, left: 22),
-                          child: _startDateField,
+                          child: TextField(
+                            controller: _startDateTextEditController,
+                            readOnly: true,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "${getCurrentDate()}",
+                                counterText: "",
+                                hintStyle: hintStyle),
+                            maxLines: 1,
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
+                            onTap: () => selectStartDate(_startDateTextEditController),
+                          ),
                         ),
                         Divider(
                           height: 1,
@@ -310,7 +293,18 @@ class _NewTicketPageState extends State<NewTicketPage> {
                         Container(
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(top: 9, left: 22),
-                          child: _endDateField,
+                          child: TextField(
+                            controller: _endDateTextEditController,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "${getFutureDate()}",
+                                counterText: "",
+                                hintStyle: hintStyle),
+                            maxLines: 1,
+                            maxLength: 10,
+                            keyboardType: TextInputType.number,
+                            onTap: () => selectStartDate(_endDateTextEditController),
+                          ),
                         ),
                         Divider(
                           height: 1,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -6,7 +7,7 @@ import 'newTicket.dart';
 import 'style/colors.dart';
 
 void main() {
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,6 +20,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: '남은거'),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'),
+        const Locale('ko', 'KO'),
+      ],
     );
   }
 }
@@ -26,14 +35,17 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  void goToNewTicket(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => NewTicket()),);
+  void goToNewTicket() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NewTicket()),
+    );
   }
 
   @override
@@ -75,11 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
                 child: Align(
-                  alignment: Alignment.center,
+                    alignment: Alignment.center,
                     child: Text(
-              '등록된 정보가 없습니다.',
-              style: TextStyle(color: Colors.grey),
-            )))
+                      '등록된 정보가 없습니다.',
+                      style: TextStyle(color: Colors.grey),
+                    )))
           ],
         ),
       ),
