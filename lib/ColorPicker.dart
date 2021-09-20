@@ -87,7 +87,8 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
           child: GridView.count(
             crossAxisCount: 5,
             childAspectRatio: 3/2,
-            padding: EdgeInsets.fromLTRB(35, 33, 21, 22),
+            padding: EdgeInsets.fromLTRB(35, 33, 21, 35),
+            mainAxisSpacing: 20,
             children: _buildColorGridList()
           ),
         ),
