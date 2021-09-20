@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:leftover_flutter/data/ColorData.dart';
 import 'package:leftover_flutter/style/colors.dart';
 import 'style/font.dart';
 
@@ -29,23 +30,29 @@ class ColorPickerPage extends StatefulWidget {
 class _ColorPickerPageState extends State<ColorPickerPage> {
 
   void closeThisScreen() {
-    Navigator.of(context, rootNavigator: true).pop(result);
+    Navigator.of(context, rootNavigator: true).pop(resultCode);
   }
 
-  List<Color> colorList = [
-    LeftOverColor.use_light_aquamarine,
-    LeftOverColor.use_manila,
-    LeftOverColor.use_pastel_purple,
-    LeftOverColor.use_sun_yellow,
-    LeftOverColor.use_pale_salmon,
-    LeftOverColor.use_light_blue,
-    LeftOverColor.use_pale_orange
+  List<ColorData> colorDataList = [
+    ColorData(LeftOverColor.use_light_aquamarine, false),
+    ColorData(LeftOverColor.use_manila, false),
+    ColorData(LeftOverColor.use_pastel_purple, false),
+    ColorData(LeftOverColor.use_sun_yellow, false),
+    ColorData(LeftOverColor.use_pale_salmon, false),
+    ColorData(LeftOverColor.use_light_blue, false),
+    ColorData(LeftOverColor.use_pale_orange, false)
   ];
 
-  var result =  LeftOverColor.use_light_aquamarine;
-  void setResultColor(Color pickedColor){
-    result = pickedColor;
-    closeThisScreen();
+  var resultCode = LeftOverColor.use_light_aquamarine;
+  var resultIdx = -1;
+  void setResultColor(ColorData pickedColor, int index){
+    resultCode = pickedColor.colorCode;
+    if(resultIdx != -1){
+      colorDataList[resultIdx].selected = false;
+    }
+    resultIdx = index;
+    colorDataList[index].selected = true;
+    setState(() {});
   }
 
   List<Container> _buildColorGridList() => List.generate(
@@ -54,11 +61,11 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
             width: 45,
             height: 45,
             child: IconButton(
-                icon: Icon(Icons.check, color: Colors.white),
-                onPressed: () => setResultColor(colorList[index])),
+                icon: Icon(Icons.check, color: colorDataList[index].selected ? Colors.white : Colors.transparent),
+                onPressed: () => setResultColor(colorDataList[index], index)),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: colorList[index],
+                color: colorDataList[index].colorCode,
           )));
 
   @override
