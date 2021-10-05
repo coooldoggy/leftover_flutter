@@ -1,43 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:leftover_flutter/ColorPicker.dart';
+import 'package:leftover_flutter/ColorPickerPage.dart';
 import 'package:leftover_flutter/data/DBHelper.dart';
 import 'package:leftover_flutter/data/TicketInfo.dart';
 import 'style/font.dart';
 import 'style/colors.dart';
 
-void main() {}
+class NewTicketPage extends StatelessWidget{
 
-class NewTicket extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '남은거',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: NewTicketPage(title: '이용권 등록'),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('ko', 'KO'),
-      ],
-    );
-  }
-}
-
-class NewTicketPage extends StatefulWidget {
-  NewTicketPage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _NewTicketPageState createState() => _NewTicketPageState();
-}
-
-class _NewTicketPageState extends State<NewTicketPage> {
   var titleStyle = TextStyle(
       color: LeftOverColor.text_greyish_brown,
       fontFamily: LeftOverTextStyle.notoSans,
@@ -56,35 +27,16 @@ class _NewTicketPageState extends State<NewTicketPage> {
     return DateFormat('yyyy.MM.dd').format(now);
   }
 
-  void closeThisScreen() {
-    Navigator.of(context, rootNavigator: true).pop(context);
-  }
-
-  void openColorPickerScreen() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => ColorPicker()),
-    // );
-
-  }
-
   _navigateAndDisplaySelection(BuildContext context) async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ColorPicker()),
+      MaterialPageRoute(builder: (context) => ColorPickerPage()),
     );
 
     debugPrint("$result");
-
-    // 선택 창으로부터 결과 값을 받은 후, 이전에 있던 snackbar는 숨기고 새로운 결과 값을
-    // 보여줍니다.
-
-    Scaffold.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text("$result")));
   }
 
-  void selectStartDate(TextEditingController controller) async {
+  void selectStartDate(TextEditingController controller, BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -162,12 +114,13 @@ class _NewTicketPageState extends State<NewTicketPage> {
     maxLength: 500,
   );
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.title,
+          '이용권 등록',
           style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -180,7 +133,9 @@ class _NewTicketPageState extends State<NewTicketPage> {
               Icons.close,
               color: Colors.black,
             ),
-            onPressed: () => closeThisScreen()),
+            onPressed: () => {
+              Navigator.pop(context)
+            }),
         actions: [
           TextButton(
               onPressed: () => registerTicket(),
@@ -247,7 +202,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                           margin: EdgeInsets.only(top: 9, left: 10),
                           child: IconButton(
                               icon:
-                                  Image.asset('assets/resources/color-01.png'),
+                              Image.asset('assets/resources/color-01.png'),
                               onPressed: () => _navigateAndDisplaySelection(context)),
                         ),
                         Divider(
@@ -288,7 +243,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                             maxLines: 1,
                             maxLength: 10,
                             keyboardType: TextInputType.number,
-                            onTap: () => selectStartDate(_startDateTextEditController),
+                            onTap: () => selectStartDate(_startDateTextEditController, context),
                           ),
                         ),
                         Divider(
@@ -320,7 +275,7 @@ class _NewTicketPageState extends State<NewTicketPage> {
                             maxLines: 1,
                             maxLength: 10,
                             keyboardType: TextInputType.number,
-                            onTap: () => selectStartDate(_endDateTextEditController),
+                            onTap: () => selectStartDate(_endDateTextEditController, context),
                           ),
                         ),
                         Divider(
@@ -363,4 +318,5 @@ class _NewTicketPageState extends State<NewTicketPage> {
       ),
     );
   }
+
 }

@@ -1,38 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:leftover_flutter/data/ColorData.dart';
 import 'package:leftover_flutter/style/colors.dart';
-import 'style/font.dart';
+import 'package:leftover_flutter/style/font.dart';
+import 'package:path/path.dart';
 
-void main() {}
+import 'data/ColorData.dart';
 
-class ColorPicker extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '남은거',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ColorPickerPage(title: '색상'),
-    );
-  }
-}
-
-class ColorPickerPage extends StatefulWidget {
-  ColorPickerPage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _ColorPickerPageState createState() => _ColorPickerPageState();
-}
-
-class _ColorPickerPageState extends State<ColorPickerPage> {
-
-  void closeThisScreen() {
-    Navigator.of(context, rootNavigator: true).pop(resultCode);
-  }
-
+class ColorPickerPage extends StatelessWidget{
   List<ColorData> colorDataList = [
     ColorData(LeftOverColor.use_light_aquamarine, false),
     ColorData(LeftOverColor.use_manila, false),
@@ -52,28 +26,29 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
     }
     resultIdx = index;
     colorDataList[index].selected = true;
-    setState(() {});
+    // super.build(context);
   }
 
   List<Container> _buildColorGridList() => List.generate(
       7,
-      (index) => Container(
-            width: 45,
-            height: 45,
-            child: IconButton(
-                icon: Icon(Icons.check, color: colorDataList[index].selected ? Colors.white : Colors.transparent),
-                onPressed: () => setResultColor(colorDataList[index], index)),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: colorDataList[index].colorCode,
+          (index) => Container(
+          width: 45,
+          height: 45,
+          child: IconButton(
+              icon: Icon(Icons.check, color: colorDataList[index].selected ? Colors.white : Colors.transparent),
+              onPressed: () => setResultColor(colorDataList[index], index)),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: colorDataList[index].colorCode,
           )));
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.title,
+          '색상',
           style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -86,17 +61,19 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
               Icons.close,
               color: Colors.black,
             ),
-            onPressed: () => closeThisScreen()),
+            onPressed: () => {
+              Navigator.pop(context)
+            }),
         centerTitle: true,
       ),
       body: Center(
         child: Container(
           child: GridView.count(
-            crossAxisCount: 5,
-            childAspectRatio: 3/2,
-            padding: EdgeInsets.fromLTRB(35, 33, 21, 35),
-            mainAxisSpacing: 20,
-            children: _buildColorGridList()
+              crossAxisCount: 5,
+              childAspectRatio: 3/2,
+              padding: EdgeInsets.fromLTRB(35, 33, 21, 35),
+              mainAxisSpacing: 20,
+              children: _buildColorGridList()
           ),
         ),
       ),
