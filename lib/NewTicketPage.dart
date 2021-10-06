@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:leftover_flutter/ColorPickerPage.dart';
 import 'package:leftover_flutter/data/DBHelper.dart';
 import 'package:leftover_flutter/data/TicketInfo.dart';
-import 'style/font.dart';
+
 import 'style/colors.dart';
+import 'style/font.dart';
 
 class NewTicketPage extends StatelessWidget{
 
@@ -17,6 +17,7 @@ class NewTicketPage extends StatelessWidget{
       fontSize: 16,
       fontFamily: LeftOverTextStyle.notoSans,
       color: LeftOverColor.text_warm_grey);
+  var selectedColor = LeftOverColor.use_light_aquamarine;
 
   static getCurrentDate() {
     return DateFormat('yyyy.MM.dd').format(DateTime.now());
@@ -33,6 +34,7 @@ class NewTicketPage extends StatelessWidget{
       MaterialPageRoute(builder: (context) => ColorPicker()),
     );
 
+    selectedColor = result;
     debugPrint("$result");
   }
 
@@ -56,7 +58,7 @@ class NewTicketPage extends StatelessWidget{
         name: _nameTextEditController.text,
         totalCnt: int.parse(_ticketTextEditController.text),
         leftCnt: null,
-        color: 1,
+        color: selectedColor.value,
         startDate: _startDateTextEditController.text,
         endDate: _endDateTextEditController.text,
         location: _locationTextEditController.text,

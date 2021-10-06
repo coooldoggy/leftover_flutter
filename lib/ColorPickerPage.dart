@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leftover_flutter/style/colors.dart';
 import 'package:leftover_flutter/style/font.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import 'data/ColorData.dart';

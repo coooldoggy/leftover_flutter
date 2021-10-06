@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:leftover_flutter/MainPage.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'ColorPickerPage.dart';
 import 'package:provider/provider.dart';
-import 'style/colors.dart';
+
+import 'ColorPickerPage.dart';
 
 void main() {
   runApp(MyApp());
