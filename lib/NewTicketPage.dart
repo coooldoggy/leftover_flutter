@@ -30,7 +30,7 @@ class NewTicketPage extends StatelessWidget{
   _navigateAndDisplaySelection(BuildContext context) async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ColorPickerPage()),
+      MaterialPageRoute(builder: (context) => ColorPicker()),
     );
 
     debugPrint("$result");

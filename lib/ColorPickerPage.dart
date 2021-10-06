@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:leftover_flutter/style/colors.dart';
 import 'package:leftover_flutter/style/font.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 import 'data/ColorData.dart';
 
-class ColorPickerPage extends StatelessWidget{
+class ColorPicker extends StatelessWidget{
+  final postRefresh = ChangeNotifier();
+
   List<ColorData> colorDataList = [
     ColorData(LeftOverColor.use_light_aquamarine, false),
     ColorData(LeftOverColor.use_manila, false),
@@ -19,28 +22,37 @@ class ColorPickerPage extends StatelessWidget{
 
   var resultCode = LeftOverColor.use_light_aquamarine;
   var resultIdx = -1;
-  void setResultColor(ColorData pickedColor, int index){
+  void setResultColor(ColorData pickedColor, int index, BuildContext context){
+    var list = Provider.of<ColorListTile>(context, listen: false);
     resultCode = pickedColor.colorCode;
     if(resultIdx != -1){
       colorDataList[resultIdx].selected = false;
     }
     resultIdx = index;
     colorDataList[index].selected = true;
-    // super.build(context);
+    list.refresh();
   }
 
-  List<Container> _buildColorGridList() => List.generate(
-      7,
-          (index) => Container(
-          width: 45,
-          height: 45,
-          child: IconButton(
-              icon: Icon(Icons.check, color: colorDataList[index].selected ? Colors.white : Colors.transparent),
-              onPressed: () => setResultColor(colorDataList[index], index)),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: colorDataList[index].colorCode,
-          )));
+  List<Container> _buildColorGridList(BuildContext context) {
+    var colorList = Provider.of<ColorListTile>(context);
+    var list = List.generate(
+        7,
+            (index) => Container(
+            width: 45,
+            height: 45,
+            child: IconButton(
+                icon: Icon(Icons.check, color: colorDataList[index].selected ? Colors.white : Colors.transparent),
+                onPressed: () => setResultColor(colorDataList[index], index, context)),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: colorDataList[index].colorCode,
+            )));
+    list.forEach((element) {
+      colorList.add(element);
+    });
+
+    return list;
+  }
 
 
   @override
@@ -62,7 +74,7 @@ class ColorPickerPage extends StatelessWidget{
               color: Colors.black,
             ),
             onPressed: () => {
-              Navigator.pop(context)
+              Navigator.pop(context, resultCode)
             }),
         centerTitle: true,
       ),
@@ -73,10 +85,23 @@ class ColorPickerPage extends StatelessWidget{
               childAspectRatio: 3/2,
               padding: EdgeInsets.fromLTRB(35, 33, 21, 35),
               mainAxisSpacing: 20,
-              children: _buildColorGridList()
-          ),
+              children:_buildColorGridList(context),
         ),
       ),
-    );
+    ));
+  }
+}
+
+class ColorListTile with ChangeNotifier{
+  final List<Container> _list = [];
+
+  List<Container> get items => _list;
+
+  void refresh(){
+    notifyListeners();
+  }
+
+  void add(Container item) {
+    _list.add(item);
   }
 }
