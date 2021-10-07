@@ -7,8 +7,7 @@ import 'package:leftover_flutter/data/TicketInfo.dart';
 import 'style/colors.dart';
 import 'style/font.dart';
 
-class NewTicketPage extends StatelessWidget{
-
+class NewTicketPage extends StatelessWidget {
   var titleStyle = TextStyle(
       color: LeftOverColor.text_greyish_brown,
       fontFamily: LeftOverTextStyle.notoSans,
@@ -38,7 +37,8 @@ class NewTicketPage extends StatelessWidget{
     debugPrint("$result");
   }
 
-  void selectStartDate(TextEditingController controller, BuildContext context) async {
+  void selectStartDate(
+      TextEditingController controller, BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -52,7 +52,49 @@ class NewTicketPage extends StatelessWidget{
     }
   }
 
-  void registerTicket() {
+  void showMandatoryMissingDialog(BuildContext context){
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            title: Column(
+              children: <Widget>[
+                new Text("필수 입력 값을 입력해주세요."),
+              ],
+            ),
+            //
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "이용권 이름, 이용권 횟수는 필수 항목입니다.",
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text("확인"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  void registerTicket(BuildContext context) {
+    if (_nameTextEditController.text.isEmpty ||
+        _ticketTextEditController.text.isEmpty) {
+      showMandatoryMissingDialog(context);
+      return;
+    }
     DBHelper().insertTicket(TicketInfo(
         id: null,
         name: _nameTextEditController.text,
@@ -116,7 +158,6 @@ class NewTicketPage extends StatelessWidget{
     maxLength: 500,
   );
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,12 +176,10 @@ class NewTicketPage extends StatelessWidget{
               Icons.close,
               color: Colors.black,
             ),
-            onPressed: () => {
-              Navigator.pop(context)
-            }),
+            onPressed: () => {Navigator.pop(context)}),
         actions: [
           TextButton(
-              onPressed: () => registerTicket(),
+              onPressed: () => registerTicket(context),
               child: Text('등록',
                   style: TextStyle(
                       color: Colors.black,
@@ -204,8 +243,9 @@ class NewTicketPage extends StatelessWidget{
                           margin: EdgeInsets.only(top: 9, left: 10),
                           child: IconButton(
                               icon:
-                              Image.asset('assets/resources/color-01.png'),
-                              onPressed: () => _navigateAndDisplaySelection(context)),
+                                  Image.asset('assets/resources/color-01.png'),
+                              onPressed: () =>
+                                  _navigateAndDisplaySelection(context)),
                         ),
                         Divider(
                           height: 1,
@@ -245,7 +285,8 @@ class NewTicketPage extends StatelessWidget{
                             maxLines: 1,
                             maxLength: 10,
                             keyboardType: TextInputType.number,
-                            onTap: () => selectStartDate(_startDateTextEditController, context),
+                            onTap: () => selectStartDate(
+                                _startDateTextEditController, context),
                           ),
                         ),
                         Divider(
@@ -277,7 +318,8 @@ class NewTicketPage extends StatelessWidget{
                             maxLines: 1,
                             maxLength: 10,
                             keyboardType: TextInputType.number,
-                            onTap: () => selectStartDate(_endDateTextEditController, context),
+                            onTap: () => selectStartDate(
+                                _endDateTextEditController, context),
                           ),
                         ),
                         Divider(
@@ -320,5 +362,4 @@ class NewTicketPage extends StatelessWidget{
       ),
     );
   }
-
 }
