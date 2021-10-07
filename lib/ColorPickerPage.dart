@@ -5,6 +5,7 @@ import 'package:leftover_flutter/style/font.dart';
 import 'package:provider/provider.dart';
 
 import 'data/ColorData.dart';
+import 'data/ColorListTile.dart';
 
 class ColorPicker extends StatelessWidget{
   final postRefresh = ChangeNotifier();
@@ -88,19 +89,5 @@ class ColorPicker extends StatelessWidget{
         ),
       ),
     ));
-  }
-}
-
-class ColorListTile with ChangeNotifier{
-  final List<Container> _list = [];
-
-  List<Container> get items => _list;
-
-  void refresh(){
-    notifyListeners();
-  }
-
-  void add(Container item) {
-    _list.add(item);
   }
 }
