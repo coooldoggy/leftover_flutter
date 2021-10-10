@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:leftover_flutter/NewTicketPage.dart';
+import 'package:leftover_flutter/TicketsListPage.dart';
 import 'package:leftover_flutter/style/colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -22,7 +23,11 @@ class MainPage extends StatelessWidget{
             onPressed: () => null),
         actions: [
           IconButton(
-              onPressed: () => null,
+              onPressed: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TicketListPage()))
+              },
               icon: Image.asset('assets/resources/icon-ticket.png'))
         ],
         centerTitle: false,
