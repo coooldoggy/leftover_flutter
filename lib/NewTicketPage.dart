@@ -7,7 +7,15 @@ import 'package:leftover_flutter/data/TicketInfo.dart';
 import 'style/colors.dart';
 import 'style/font.dart';
 
-class NewTicketPage extends StatelessWidget {
+class NewTicketPage extends StatefulWidget {
+  const NewTicketPage({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _NewTicketPage();
+}
+
+class _NewTicketPage extends State<NewTicketPage> {
+
   var titleStyle = TextStyle(
       color: LeftOverColor.text_greyish_brown,
       fontFamily: LeftOverTextStyle.notoSans,
@@ -30,10 +38,11 @@ class NewTicketPage extends StatelessWidget {
   _navigateAndDisplaySelection(BuildContext context) async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ColorPicker()),
+      MaterialPageRoute(builder: (context) => ColorPicker(color: selectedColor)),
     );
 
     selectedColor = result;
+    setState(() {});
     debugPrint("$result");
   }
 
@@ -239,11 +248,15 @@ class NewTicketPage extends StatelessWidget {
                           child: Text("색상", style: titleStyle),
                         ),
                         Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(top: 9, left: 10),
+                          width: 22,
+                          height: 22,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: selectedColor,
+                          ),
+                          margin: EdgeInsets.only(top: 25, bottom: 10),
                           child: IconButton(
-                              icon:
-                                  Image.asset('assets/resources/color-01.png'),
+                              icon: Icon(Icons.check, color: Colors.transparent),
                               onPressed: () =>
                                   _navigateAndDisplaySelection(context)),
                         ),
@@ -363,3 +376,4 @@ class NewTicketPage extends StatelessWidget {
     );
   }
 }
+
