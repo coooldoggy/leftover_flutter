@@ -248,16 +248,18 @@ class _NewTicketPage extends State<NewTicketPage> {
                           child: Text("색상", style: titleStyle),
                         ),
                         Container(
-                          width: 22,
-                          height: 22,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: selectedColor,
-                          ),
-                          margin: EdgeInsets.only(top: 25, bottom: 10),
-                          child: IconButton(
-                              icon: Icon(Icons.check, color: Colors.transparent),
-                              onPressed: () =>
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(top: 25, bottom: 10, left: 22),
+                          child: InkWell(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: selectedColor,
+                                  ),
+                                width: 22,
+                                height: 22,
+                              ),
+                              onTap: () =>
                                   _navigateAndDisplaySelection(context)),
                         ),
                         Divider(
