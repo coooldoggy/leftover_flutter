@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:leftover_flutter/ColorPickerPage.dart';
+import 'package:leftover_flutter/view/ColorPickerPage.dart';
 import 'package:leftover_flutter/data/DBHelper.dart';
 import 'package:leftover_flutter/data/TicketInfo.dart';
 
-import 'style/colors.dart';
-import 'style/font.dart';
+import '../style/colors.dart';
+import '../style/font.dart';
 
 class NewTicketPage extends StatefulWidget {
   const NewTicketPage({Key? key}) : super(key: key);
@@ -114,6 +114,7 @@ class _NewTicketPage extends State<NewTicketPage> {
         endDate: _endDateTextEditController.text,
         location: _locationTextEditController.text,
         memo: _memoTextEditController.text));
+    Navigator.pop(context);
   }
 
   static var _nameTextEditController = TextEditingController();

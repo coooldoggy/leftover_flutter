@@ -4,8 +4,8 @@ import 'package:leftover_flutter/style/colors.dart';
 import 'package:leftover_flutter/style/font.dart';
 import 'package:provider/provider.dart';
 
-import 'data/ColorData.dart';
-import 'data/ColorListTile.dart';
+import '../data/ColorData.dart';
+import '../data/ColorListTile.dart';
 
 class ColorPicker extends StatefulWidget {
   ColorPicker({Key? key, required this.color}) : super(key: key);

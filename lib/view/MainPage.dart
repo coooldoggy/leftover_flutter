@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:leftover_flutter/NewTicketPage.dart';
-import 'package:leftover_flutter/TicketsListPage.dart';
+import 'package:leftover_flutter/view/NewTicketPage.dart';
+import 'package:leftover_flutter/view/TicketsListPage.dart';
 import 'package:leftover_flutter/style/colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 

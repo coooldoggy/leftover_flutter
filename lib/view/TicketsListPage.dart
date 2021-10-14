@@ -2,10 +2,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leftover_flutter/style/font.dart';
 
-class TicketListPage extends StatelessWidget {
+import 'UsingTicketPage.dart';
+
+class TicketListPage extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() => _TicketListPage();
+}
+
+class _TicketListPage extends State<TicketListPage> with SingleTickerProviderStateMixin{
+  static const List<Tab> ticketTabs = <Tab> [
+    Tab(text: '사용중',),
+    Tab(text: '사용완료',)
+  ];
+
+  late TabController _tabController;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: ticketTabs.length, vsync: this);
+  }
+
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(length: 2, child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(
           '이용권',
@@ -26,10 +55,8 @@ class TicketListPage extends StatelessWidget {
             }),
         centerTitle: true,
         bottom: TabBar(
-          tabs: [
-            Tab(text: '사용중',),
-            Tab(text: '사용완료',)
-          ],
+          tabs: ticketTabs,
+          controller: _tabController,
           labelColor: Colors.black,
           indicatorColor: Colors.black,
           unselectedLabelColor: Colors.grey,
@@ -40,11 +67,12 @@ class TicketListPage extends StatelessWidget {
         ),
       ),
       body: TabBarView(
+        controller: _tabController,
         children: [
-          Icon(Icons.directions_car),
+          UsingTicketPage(),
           Icon(Icons.directions_transit),
         ],
       ),
-    ));
+    );
   }
 }
