@@ -5,6 +5,8 @@ import 'package:leftover_flutter/data/TicketInfo.dart';
 import 'package:leftover_flutter/style/colors.dart';
 import 'package:leftover_flutter/style/font.dart';
 
+import 'NewTicketPage.dart';
+
 class UsingTicketPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _UsingTicketPage();
@@ -31,17 +33,11 @@ class _UsingTicketPage extends State<UsingTicketPage> {
                 onTap: null,
                 child: Container(
                   alignment: Alignment.center,
-                  child: Text(ticketList[index].name,style: ticketNameStyle),
+                  child: Text(ticketList[index].name, style: ticketNameStyle),
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(colors: [
-                      Colors.white,
-                      Color(ticketList[index].color)
-                    ], stops: [0.5,1], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                    // color: Color(ticketList[index].color),
+                      shape: BoxShape.circle,
                       border: Border.all(
-                          color: Color(ticketList[index].color), width: 2)
-                  ),
+                          color: Color(ticketList[index].color), width: 2)),
                 ),
               ),
             ));
@@ -56,7 +52,10 @@ class _UsingTicketPage extends State<UsingTicketPage> {
             height: 106,
             child: IconButton(
               icon: Icon(Icons.add, color: LeftOverColor.very_light_pink),
-              onPressed: null,
+              onPressed: () => {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => NewTicketPage()))
+              },
             ),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -81,7 +80,7 @@ class _UsingTicketPage extends State<UsingTicketPage> {
       body: Center(
         child: Container(
           child: GridView.count(
-            crossAxisCount: ticketList.length,
+            crossAxisCount: 3,
             childAspectRatio: 3 / 2,
             padding: EdgeInsets.fromLTRB(6, 15, 6, 6),
             mainAxisSpacing: 20,

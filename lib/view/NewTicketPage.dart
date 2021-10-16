@@ -114,7 +114,18 @@ class _NewTicketPage extends State<NewTicketPage> {
         endDate: _endDateTextEditController.text,
         location: _locationTextEditController.text,
         memo: _memoTextEditController.text));
+    clearAll();
     Navigator.pop(context);
+  }
+
+  void clearAll(){
+    _nameTextEditController.clear();
+    _ticketTextEditController.clear();
+    _startDateTextEditController.clear();
+    _endDateTextEditController.clear();
+    _locationTextEditController.clear();
+    _memoTextEditController.clear();
+    selectedColor = LeftOverColor.use_light_aquamarine;
   }
 
   static var _nameTextEditController = TextEditingController();
