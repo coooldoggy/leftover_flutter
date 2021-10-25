@@ -66,28 +66,46 @@ class _UsingTicketPage extends State<UsingTicketPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    DBHelper().getAllTicket().then((value) => value.forEach((element) {
-          debugPrint("${element.name}");
-          ticketList.add(element);
-        }));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          child: GridView.count(
-            crossAxisCount: 3,
-            childAspectRatio: 3 / 2,
-            padding: EdgeInsets.fromLTRB(6, 15, 6, 6),
-            mainAxisSpacing: 20,
-            children: _buildTicketGridList(context),
-          ),
-        ),
-      ),
+      body: FutureBuilder(
+        future: _getTicketData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot){
+          if(snapshot.hasData == false){
+            return Center(
+              child: Container(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }else{
+            return Center(
+              child: Container(
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  childAspectRatio: 3 / 2,
+                  padding: EdgeInsets.fromLTRB(6, 15, 6, 6),
+                  mainAxisSpacing: 20,
+                  children: _buildTicketGridList(context),
+                ),
+              ),
+            );
+          }
+        },
+      )
     );
   }
+
+  Future<void> _getTicketFromDB() async{
+    ticketList.clear();
+    var tickets = DBHelper().getAllTicket().then((value) => value.forEach((element) {
+      ticketList.add(element);
+    }));
+    return tickets;
+  }
+
+  Future<int> _getTicketData() async {
+    var result = await _getTicketFromDB();
+    return ticketList.length;
+  }
+
 }
