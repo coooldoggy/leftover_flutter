@@ -15,7 +15,7 @@ class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() => _MainPage();
 }
 
-class _MainPage extends State<MainPage>{
+class _MainPage extends State<MainPage> {
   List<TicketInfo> ticketList = [];
 
   var ticketNameStyle = TextStyle(
@@ -24,19 +24,35 @@ class _MainPage extends State<MainPage>{
       fontWeight: FontWeight.bold,
       fontSize: 18);
 
-  Widget _buildTicketEnrolledList(BuildContext context) {
-    if(ticketList.isEmpty){
+  Widget? _buildTicketEnrolledList(BuildContext context) {
+    debugPrint("${ticketList.first.name}");
+    if (ticketList.isEmpty) {
       return emptyText;
-    }else{
-      var list = List.generate(ticketList.length, (index) =>
-          Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                  child: Text(ticketList[index].name, style: ticketNameStyle)
-              ))
-          );
-      return list;
+    } else {
+        return
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+
+              ),
+              ListView(
+                children: [
+
+                ],
+              )
+            ]);
     }
+  }
+
+  List<Widget>? getTicketWidget(){
+    List.generate(ticketList.length, (index) =>
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Text(ticketList[index].name, style: ticketNameStyle),
+        )
+    );
   }
 
   var emptyText = Expanded(
@@ -47,86 +63,86 @@ class _MainPage extends State<MainPage>{
             style: TextStyle(color: Colors.grey),
           )));
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '남은거',
-          style:
-          const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-          textAlign: TextAlign.left,
+        appBar: AppBar(
+          title: Text(
+            '남은거',
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.black),
+            textAlign: TextAlign.left,
+          ),
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              icon: SvgPicture.asset('assets/resources/iconhand.svg'),
+              onPressed: () => null),
+          actions: [
+            IconButton(
+                onPressed: () =>
+                {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TicketListPage()))
+                },
+                icon: Image.asset('assets/resources/icon-ticket.png'))
+          ],
+          centerTitle: false,
         ),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: SvgPicture.asset('assets/resources/iconhand.svg'),
-            onPressed: () => null),
-        actions: [
-          IconButton(
-              onPressed: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TicketListPage()))
-              },
-              icon: Image.asset('assets/resources/icon-ticket.png'))
-        ],
-        centerTitle: false,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:  () => {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NewTicketPage()))
-        },
-        tooltip: 'Add',
-        child: Icon(Icons.add),
-        backgroundColor: Colors.white,
-        foregroundColor: LeftOverColor.logo_purpley,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-      body: FutureBuilder(
-        future: _getTicketData(),
-       builder: (BuildContext context, AsyncSnapshot snapshot){
-          if(snapshot.hasData == false){
-            return Center(
-              child: Container(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }else{
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  TableCalendar(
-                    firstDay: DateTime.utc(2010, 10, 16),
-                    lastDay: DateTime.utc(2030, 3, 14),
-                    focusedDay: DateTime.now(),
-                    availableCalendarFormats: const {
-                      CalendarFormat.month: '월',
-                      CalendarFormat.week: '주',
-                    },
-                    headerStyle:
-                    HeaderStyle(formatButtonVisible: false, titleCentered: true),
-                    locale: 'ko_kr',
-                  ),
-                  Expanded(
-                      child: _buildTicketEnrolledList(context);
-                  )
-                ],
-              ),
-            );
-          }
-       },
-      ));
+        floatingActionButton: FloatingActionButton(
+          onPressed: () =>
+          {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NewTicketPage()))
+          },
+          tooltip: 'Add',
+          child: Icon(Icons.add),
+          backgroundColor: Colors.white,
+          foregroundColor: LeftOverColor.logo_purpley,
+        ), // This trailing comma makes auto-formatting nicer for build methods.
+        body: FutureBuilder(
+          future: _getTicketData(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData == false) {
+              return Center(
+                child: Container(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            } else {
+              return Container(
+                child: Stack(
+                  children: <Widget>[
+                    TableCalendar(
+                      firstDay: DateTime.utc(2010, 10, 16),
+                      lastDay: DateTime.utc(2030, 3, 14),
+                      focusedDay: DateTime.now(),
+                      availableCalendarFormats: const {
+                        CalendarFormat.month: '월',
+                        CalendarFormat.week: '주',
+                      },
+                      headerStyle: HeaderStyle(
+                          formatButtonVisible: false, titleCentered: true),
+                      locale: 'ko_kr',
+                    ),
+                    Positioned(
+                      child: _buildTicketEnrolledList(context)!,)
+                  ],
+                ),
+              );
+            }
+          },
+        ));
   }
 
-
-  Future<void> _getTicketFromDB() async{
+  Future<void> _getTicketFromDB() async {
     ticketList.clear();
-    var tickets = DBHelper().getAllTicket().then((value) => value.forEach((element) {
-      ticketList.add(element);
-    }));
+    var tickets =
+    DBHelper().getAllTicket().then((value) =>
+        value.forEach((element) {
+          ticketList.add(element);
+        }));
     return tickets;
   }
 
@@ -134,5 +150,4 @@ class _MainPage extends State<MainPage>{
     var result = await _getTicketFromDB();
     return ticketList.length;
   }
-
 }
