@@ -21,8 +21,8 @@ class _MainPage extends State<MainPage> {
   var ticketNameStyle = TextStyle(
       color: LeftOverColor.text_black,
       fontFamily: LeftOverTextStyle.notoSans,
-      fontWeight: FontWeight.bold,
-      fontSize: 18);
+      fontWeight: FontWeight.normal,
+      fontSize: 16);
 
   List<Container> _buildTicketEnrolledList(BuildContext context) {
     var list = List.generate(
@@ -118,16 +118,30 @@ class _MainPage extends State<MainPage> {
                           formatButtonVisible: false, titleCentered: true),
                       locale: 'ko_kr',
                     ),
-                    ListView.builder(
+                    ListView.separated(
                       shrinkWrap: true,
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(10),
                       itemCount: ticketList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                            alignment: Alignment.center,
-                            child: Text(ticketList[index].name,
-                                style: ticketNameStyle));
+                            color: Color(LeftOverColor.bg_pale_grey.value),
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 3,
+                                  height: 15,
+                                  color: Color(ticketList[index].color),
+                                ),
+                                VerticalDivider(
+                                  width: 12,
+                                ),
+                                Text(ticketList[index].name,
+                                    style: ticketNameStyle)
+                              ],
+                            ));
                       },
+                      separatorBuilder: (BuildContext context, int index) => const Divider(),
                     )
                   ],
                 ),
