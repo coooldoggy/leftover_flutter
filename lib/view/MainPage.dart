@@ -21,38 +21,16 @@ class _MainPage extends State<MainPage> {
   var ticketNameStyle = TextStyle(
       color: LeftOverColor.text_black,
       fontFamily: LeftOverTextStyle.notoSans,
-      fontWeight: FontWeight.bold,
-      fontSize: 18);
+      fontWeight: FontWeight.normal,
+      fontSize: 16);
 
-  Widget? _buildTicketEnrolledList(BuildContext context) {
-    debugPrint("${ticketList.first.name}");
-    if (ticketList.isEmpty) {
-      return emptyText;
-    } else {
-        return
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-
-              ),
-              ListView(
-                children: [
-
-                ],
-              )
-            ]);
-    }
-  }
-
-  List<Widget>? getTicketWidget(){
-    List.generate(ticketList.length, (index) =>
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text(ticketList[index].name, style: ticketNameStyle),
-        )
-    );
+  List<Container> _buildTicketEnrolledList(BuildContext context) {
+    var list = List.generate(
+        ticketList.length,
+        (index) => Container(
+            alignment: Alignment.center,
+            child: Text(ticketList[index].name, style: ticketNameStyle)));
+    return list;
   }
 
   var emptyText = Expanded(
@@ -79,20 +57,18 @@ class _MainPage extends State<MainPage> {
               onPressed: () => null),
           actions: [
             IconButton(
-                onPressed: () =>
-                {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TicketListPage()))
-                },
+                onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TicketListPage()))
+                    },
                 icon: Image.asset('assets/resources/icon-ticket.png'))
           ],
           centerTitle: false,
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () =>
-          {
+          onPressed: () => {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => NewTicketPage()))
           },
@@ -106,13 +82,8 @@ class _MainPage extends State<MainPage> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData == false) {
               return Center(
-                child: Container(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            } else {
-              return Container(
-                child: Stack(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     TableCalendar(
                       firstDay: DateTime.utc(2010, 10, 16),
@@ -126,8 +97,52 @@ class _MainPage extends State<MainPage> {
                           formatButtonVisible: false, titleCentered: true),
                       locale: 'ko_kr',
                     ),
-                    Positioned(
-                      child: _buildTicketEnrolledList(context)!,)
+                    Expanded(child: emptyText)
+                  ],
+                ),
+              );
+            } else {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    TableCalendar(
+                      firstDay: DateTime.utc(2010, 10, 16),
+                      lastDay: DateTime.utc(2030, 3, 14),
+                      focusedDay: DateTime.now(),
+                      availableCalendarFormats: const {
+                        CalendarFormat.month: '월',
+                        CalendarFormat.week: '주',
+                      },
+                      headerStyle: HeaderStyle(
+                          formatButtonVisible: false, titleCentered: true),
+                      locale: 'ko_kr',
+                    ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(10),
+                      itemCount: ticketList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                            color: Color(LeftOverColor.bg_pale_grey.value),
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 3,
+                                  height: 15,
+                                  color: Color(ticketList[index].color),
+                                ),
+                                VerticalDivider(
+                                  width: 12,
+                                ),
+                                Text(ticketList[index].name,
+                                    style: ticketNameStyle)
+                              ],
+                            ));
+                      },
+                      separatorBuilder: (BuildContext context, int index) => const Divider(),
+                    )
                   ],
                 ),
               );
@@ -139,10 +154,9 @@ class _MainPage extends State<MainPage> {
   Future<void> _getTicketFromDB() async {
     ticketList.clear();
     var tickets =
-    DBHelper().getAllTicket().then((value) =>
-        value.forEach((element) {
-          ticketList.add(element);
-        }));
+        DBHelper().getAllTicket().then((value) => value.forEach((element) {
+              ticketList.add(element);
+            }));
     return tickets;
   }
 
