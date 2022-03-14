@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:leftover_flutter/data/DBHelper.dart';
 import 'package:leftover_flutter/data/TicketInfo.dart';
+import 'package:leftover_flutter/data/TicketList.dart';
 import 'package:leftover_flutter/style/colors.dart';
 import 'package:leftover_flutter/style/font.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,7 @@ class UsingTicketPage extends StatefulWidget {
   State<StatefulWidget> createState() => _UsingTicketPage();
 }
 
-class _UsingTicketPage extends State<UsingTicketPage> {
+class _UsingTicketPage extends State<UsingTicketPage> with AutomaticKeepAliveClientMixin {
   List<TicketInfo> ticketList = [];
 
   var ticketNameStyle = TextStyle(
@@ -23,7 +23,6 @@ class _UsingTicketPage extends State<UsingTicketPage> {
       fontSize: 18);
 
   List<Container> _buildTicketGridList(BuildContext context) {
-
     var list = List.generate(
         ticketList.length,
         (index) => Container(
@@ -91,17 +90,16 @@ class _UsingTicketPage extends State<UsingTicketPage> {
     );
   }
 
-  Future<void> _getTicketFromDB() async{
-    ticketList.clear();
-    var tickets = DBHelper().getAllTicket().then((value) => value.forEach((element) {
-      ticketList.add(element);
-    }));
-    return tickets;
+  Future<void> _getTicketFromDB() async {
+    ticketList = Provider.of<TicketList>(context, listen: false).get();
   }
 
   Future<int> _getTicketData() async {
     var result = await _getTicketFromDB();
     return ticketList.length;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }

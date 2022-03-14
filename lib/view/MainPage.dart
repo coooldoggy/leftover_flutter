@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:leftover_flutter/data/TicketList.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -144,11 +145,7 @@ class _MainPage extends State<MainPage> {
 
   Future<void> _getTicketFromDB() async {
     ticketList.clear();
-    var tickets =
-        DBHelper().getAllTicket().then((value) => value.forEach((element) {
-              ticketList.add(element);
-            }));
-    return tickets;
+    ticketList = Provider.of<TicketList>(context, listen: false).get();
   }
 
   Future<int> _getTicketData() async {

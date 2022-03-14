@@ -35,10 +35,11 @@ class TicketList with ChangeNotifier{
   }
 
    List<TicketInfo> get(){
+    _ticketList.clear();
      DBHelper().getAllTicket().then((value) => value.forEach((element) {
        _ticketList.add(element);
      }));
-
+     notifyListeners();
      return _ticketList;
   }
 }
