@@ -4,6 +4,7 @@ import 'package:leftover_flutter/data/DBHelper.dart';
 import 'package:leftover_flutter/data/TicketInfo.dart';
 import 'package:leftover_flutter/style/colors.dart';
 import 'package:leftover_flutter/style/font.dart';
+import 'package:provider/provider.dart';
 
 import 'NewTicketPage.dart';
 
@@ -22,7 +23,6 @@ class _UsingTicketPage extends State<UsingTicketPage> {
       fontSize: 18);
 
   List<Container> _buildTicketGridList(BuildContext context) {
-    // var notiTicketList = Provider.of<TicketListTile>(context);
 
     var list = List.generate(
         ticketList.length,
@@ -41,10 +41,6 @@ class _UsingTicketPage extends State<UsingTicketPage> {
                 ),
               ),
             ));
-    // list.forEach((element) {
-    //   notiTicketList.add(element);
-    // });
-
     list.insert(
         0,
         Container(

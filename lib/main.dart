@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:leftover_flutter/data/TicketList.dart';
 import 'package:leftover_flutter/view/MainPage.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +14,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ColorListTile>(
-      create: (context) => ColorListTile(),
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => ColorListTile()),
+      ChangeNotifierProvider(create: (_) => TicketList())
+    ],
       child: MaterialApp(
         title: '남은거',
         theme: ThemeData(

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:leftover_flutter/data/DBHelper.dart';
@@ -23,15 +23,6 @@ class _MainPage extends State<MainPage> {
       fontFamily: LeftOverTextStyle.notoSans,
       fontWeight: FontWeight.normal,
       fontSize: 16);
-
-  List<Container> _buildTicketEnrolledList(BuildContext context) {
-    var list = List.generate(
-        ticketList.length,
-        (index) => Container(
-            alignment: Alignment.center,
-            child: Text(ticketList[index].name, style: ticketNameStyle)));
-    return list;
-  }
 
   var emptyText = Expanded(
       child: Align(

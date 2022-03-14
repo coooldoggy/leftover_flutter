@@ -56,7 +56,7 @@ class DBHelper {
 
 
   ///delete
- Future<void> deleteTicket(int id) async {
+ Future<void> deleteTicket(int? id) async {
    final db = await database;
    await db.delete(mainTableName, where: "id = ?", whereArgs: [id]);
  }
